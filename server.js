@@ -16,13 +16,18 @@ const corsOptions = {
   allowedHeaders: ["Content-Type"],
 };
 
-app.use(cors(corsOptions));  // Usar CORS con opciones
+app.use(cors(corsOptions)); // Usar CORS con opciones
 
 // Middleware
 app.use(express.json());
 
 // Sirve los archivos estáticos del build
-app.use(express.static(path.join(__dirname, 'public')));  // 'public' es donde estará tu build
+app.use(express.static(path.join(__dirname, "public"))); // 'public' es donde estará tu build
+
+// Ruta principal para verificar si el servidor está activo
+app.get("/", (req, res) => {
+  res.status(200).send("Al menos el servidor está corriendo 👌");
+});
 
 // Ruta para manejar el envío de contacto
 app.post("/api/contact", async (req, res) => {
@@ -59,6 +64,7 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+// Inicia el servidor
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://${PORT}`);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
